@@ -18,9 +18,19 @@ interface StatusEvaluation {
 export default function Dashboard() {
   const { currentUser, role, logout } = useAuth();
   const [devices, setDevices] = useState<SystemDevices>({});
+  const [currentTime, setCurrentTime] = useState(Date.now());
   const [activeDeviceKey, setActiveDeviceKey] = useState<string | null>(null);
 
   const isAdmin = role === "admin";
+
+  // 💡 Background clock tick to force re-evaluation of online/offline status
+  useEffect(() => {
+    const clockInterval = setInterval(() => {
+      setCurrentTime(Date.now());
+    }, 5000); // Check and refresh the status text frame every 5 seconds
+
+    return () => clearInterval(clockInterval);
+  }, []);
 
   // Stream listening pipeline configuration
   useEffect(() => {
@@ -59,7 +69,7 @@ export default function Dashboard() {
 
   function evaluateStatus(lastSeen: number | undefined): StatusEvaluation {
     if (!lastSeen) return { status: "OFFLINE", color: "bg-red-500" };
-    const isLive = Date.now() - lastSeen < 25000;
+    const isLive = currentTime - lastSeen < 25000;
     return isLive ? { status: "ONLINE", color: "bg-emerald-500" } : { status: "OFFLINE", color: "bg-red-500" };
   }
 
