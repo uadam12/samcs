@@ -3,10 +3,12 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "homepage": "https://uadam12.github.io/samcs",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
+    "deploy": "pnpm run build && gh-pages -d dist",
     "preview": "vite preview"
   },
   "dependencies": {

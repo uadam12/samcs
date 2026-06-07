@@ -6,7 +6,6 @@ interface RelayCardProps {
   channelId: string;
   channelIndex: number;
   relayData: RelayChannel;
-  isOnline: boolean;
   onToggleState: (channelId: string, currentChannelData: RelayChannel) => void;
   onToggleLockout: (channelId: string, currentChannelData: RelayChannel) => void;
   onRenameAppliance: (channelId: string, currentChannelData: RelayChannel, newName: string) => void;
@@ -16,7 +15,6 @@ export default function RelayCard({
   channelId,
   channelIndex,
   relayData,
-  isOnline,
   onToggleState,
   onToggleLockout,
   onRenameAppliance,
@@ -69,7 +67,7 @@ export default function RelayCard({
           <div className="flex items-center space-x-1.5">
             <span className={`w-1.5 h-1.5 rounded-full ${isOn ? 'bg-blue-400 animate-pulse' : 'bg-slate-700'}`} />
             <span className={`text-[10px] font-mono font-bold ${isOn ? 'text-blue-400' : 'text-slate-500'}`}>
-              {isOnline && isOn ? "LIVE" : "DISCONNECTED"}
+              {isOn ? "LIVE" : "DISCONNECTED"}
             </span>
           </div>
         </div>

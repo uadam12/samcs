@@ -3,7 +3,7 @@ import type { User, UserCredential } from "firebase/auth";
 import { createContext, useContext, useEffect, useState } from "react";
 import { 
   signInWithEmailAndPassword, 
-  signOut, 
+  signOut, createUserWithEmailAndPassword,
   sendPasswordResetEmail, 
   onAuthStateChanged,
 } from "firebase/auth";
@@ -16,6 +16,7 @@ interface AuthContextType {
   role: UserRole | null;
   loading: boolean; // FIXED: Explicitly declared here so useAuth tracks it cleanly
   login: (email: string, password: string) => Promise<UserCredential>;
+  signup: (email: string, password: string) => Promise<UserCredential>;
   logout: () => Promise<void>;
   resetPassword: (email: string) => Promise<void>;
 }
@@ -52,10 +53,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const login = (email: string, password: string) => signInWithEmailAndPassword(auth, email, password);
+  const signup = (email: string, password: string) => createUserWithEmailAndPassword(auth, email, password);
   const logout = () => signOut(auth);
   const resetPassword = (email: string) => sendPasswordResetEmail(auth, email);
 
-  const value: AuthContextType = { currentUser, role, loading, login, logout, resetPassword };
+  const value: AuthContextType = { currentUser, role, loading, login, signup, logout, resetPassword };
 
   return (
     <AuthContext.Provider value={value}>
