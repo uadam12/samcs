@@ -4,7 +4,7 @@ import react from '@vitejs/plugin-react';
 
 // https://vite.dev/config/
 export default defineConfig({
-  'base': "/samcs/",
+  'base': process.env.VERCEL ? '/' : '/samcs/',
   plugins: [
     react(), tailwindCSS()
   ],
